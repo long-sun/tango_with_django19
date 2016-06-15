@@ -1,13 +1,15 @@
 from django.contrib import admin
-from rango.models import Category, Page
+from rango.models import Category, Page, UserProfile
+
 
 class PageInline(admin.TabularInline):
     model = Page
     extra = 3
 
 class CategoryAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('name', )}
     fieldsets = [
-        (None, {'fields': ['name']}),
+        (None, {'fields': ['name', 'slug']}),
         ('views and likes', {'fields': ['views', 'likes']})
         ]
     inlines = [PageInline]
@@ -23,3 +25,4 @@ class PageAdmin(admin.ModelAdmin):
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Page, PageAdmin)
+admin.site.register(UserProfile)
